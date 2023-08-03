@@ -1,18 +1,18 @@
 <script setup>
-import LayoutNav from './components/LayoutNav.vue'
-import LayoutHeader from './components/LayoutHeader.vue'
-import LayoutFooter from './components/LayoutFooter.vue'
+import LayoutNav from "./components/LayoutNav.vue";
+import LayoutHeader from "./components/LayoutHeader.vue";
+import LayoutFooter from "./components/LayoutFooter.vue";
+import LayoutFixed from "./components/LayoutFixed.vue";
 </script>
 
 <template>
-  
   <!--为什么加上div嵌套后样式正常，没加上时宽度超过1024变成两列-->
-  
-  <div>
-    <LayoutNav />
-  <LayoutHeader />
-  <RouterView />
-  <LayoutFooter />
-</div>
 
+<div>
+    <LayoutFixed />
+    <LayoutNav />
+    <LayoutHeader />
+    <RouterView />
+    <LayoutFooter />
+  </div>
 </template>
