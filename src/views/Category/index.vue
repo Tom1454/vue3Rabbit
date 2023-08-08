@@ -3,13 +3,18 @@ import {getTopCategoryAPI} from '@/apis/category'
 import {onMounted, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import goodsItem from '../Home/components/goodsItem.vue';
+import { onBeforeRouteUpdate } from 'vue-router';
 
 const route =useRoute()
 const categoryData =ref({})
-const getCategory =async()=>{
- const res = await getTopCategoryAPI(route.params.id)
+const getCategory =async(id=route.params.id)=>{
+ const res = await getTopCategoryAPI(id)
  categoryData.value=res.result
 }
+//目标参数变化时候， 可以把分类数据接口重新发送
+onBeforeRouteUpdate((to)=>{
+  getCategory(to.params.id)
+})
 
 import { getBannerAPI } from '@/apis/home'
 
