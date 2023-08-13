@@ -22,7 +22,7 @@ onMounted(() => getNewList());
       </li>
     </ul>
   </home-panel>
-  下面是插槽主体内容模版
+  
 </template>
 
 

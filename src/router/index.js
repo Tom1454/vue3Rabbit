@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Category from '@/views/Category/index.vue'
+import SubCategory from '@/views/subCategory/index.vue'
 
 //createWebHistory创建history 的路由
 const router = createRouter({
@@ -19,6 +20,10 @@ const router = createRouter({
       {
         path:'/category/:id',
         component:Category
+      },
+      {
+          path:'/category/sub/:id',
+          component: SubCategory
       }
       ]
     },
