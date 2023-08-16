@@ -2,13 +2,21 @@
 import { ref, watch } from 'vue'
 import { useMouseInElement } from '@vueuse/core'
 // 图片列表
-const imageList = [
-  "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
-  "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
-  "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
-  "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
-  "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
-]
+
+defineProps({
+  imageList:{
+    Type:'Array',
+    default:()=>[]
+  }
+})
+
+// const imageList = [
+//   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
+//   "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
+//   "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
+// ]
 
 const curIndex = ref(0)
 
@@ -23,7 +31,9 @@ const top = ref(0)
 const positionX = ref(0)
 const positionY = ref(0)
 watch([elementX,elementY,isOutside],()=>{
+  //如果鼠标没有移入盒子，将不执行后面的逻辑
   if(isOutside.value) return
+//有效范围内控制滑块距离
   if(elementX.value>100&&elementX.value<300){left.value=elementX.value-100}
   if(elementY.value>100&&elementY.value<300){top.value=elementY.value-100}
 
@@ -33,9 +43,9 @@ watch([elementX,elementY,isOutside],()=>{
 
   if (elementY.value > 300) { top.value = 200 }
   if (elementY.value < 100) { top.value = 0 }
-//控制大图的显示
-// positionX.value=-left.value*2
-// positionY.value= -top.value*2
+
+positionX.value=-left.value*2
+positionY.value= -top.value*2
 })
 
 </script>
@@ -48,11 +58,11 @@ watch([elementX,elementY,isOutside],()=>{
     <div class="middle" ref="target">
       <img :src="imageList[curIndex]" alt="" />
       <!-- 蒙层小滑块 -->
-      <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+      <div class="layer" v-show="!isOutside" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
     <!-- 小图列表 -->
     <ul class="small">
-      <li v-for="(img, i) in imageList" :key="i" @mouseenter="mouseEnterFn(i)" :class="{active:i===curIndex}">
+      <li v-for="(img, i) in imageList"  :key="i" @mouseenter="mouseEnterFn(i)" :class="{active:i===curIndex}">
         <img :src="img" alt="" />
       </li>
     </ul>
@@ -60,10 +70,10 @@ watch([elementX,elementY,isOutside],()=>{
     <div class="large" :style="[
       {
         backgroundImage: `url(${imageList[0]})`,
-        backgroundPositionX: `0px`,
-        backgroundPositionY: `0px`,
+        backgroundPositionX: `${positionX}px`,
+        backgroundPositionY: `${positionY}px`,
       },
-    ]" v-show="false"></div>
+    ]" v-show="!isOutside"></div>
   </div>
 </template>
 
